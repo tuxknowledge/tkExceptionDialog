@@ -8,7 +8,7 @@ Sample
 
 The default dialog will show some more information about the system:
 
-.. image:: blob/master/sample.png
+.. image:: https://raw.github.com/tuxknowledge/tkExceptionDialog/master/sample.png
 
 License
 -------
