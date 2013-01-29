@@ -1,10 +1,31 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# Copyright (C) 2013 "Andre Raabe <andre.raabe@gmail.com>"
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to
+# deal in the Software without restriction, including without limitation the
+# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+# sell copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
 __appname__ = 'tkExceptionDialog'
-__author__ = 'André Raabe <andre.raabe@gmail.com>'
+__author__ = 'Andre Raabe <andre.raabe@gmail.com>'
 __version__ = '0.1'
-__license__ = 'MIT?'
+__license__ = 'MIT'
 
 import Tkinter as tk
 import ttk
@@ -17,16 +38,18 @@ import tkFont
 
 
 class AutoScrollbar(ttk.Scrollbar):
-    def set(self, lo, hi):
-        if float(lo) <= 0.0 and float(hi) >= 1.0:
+    """Simple class for hidable scrollbar."""
+    def set(self, minVal, maxVal):
+        if float(minVal) <= 0.0 and float(maxVal) >= 1.0:
             self.tk.call("grid", "remove", self)
         else:
             self.grid()
-        ttk.Scrollbar.set(self, lo, hi)
+        ttk.Scrollbar.set(self, minVal, maxVal)
         self.update_idletasks()
 
 
 class tkExceptionDialog(object):
+    """Construct a modal dialog showing the latest exception information."""
     def __init__(self, parent=None, additionalMessage=None):
         self.top = tk.Toplevel(parent)
         self.parent = parent
@@ -120,6 +143,7 @@ class tkExceptionDialog(object):
             self.parent.wait_window(self.top)
 
     def buildExceptionInfo(self, additionalMessage=None):
+        """Create the exeption message and add some system details as well."""
         if not additionalMessage:
             additionalMessage = ""
         errMsg = """Date (UTC): {0}
@@ -145,9 +169,11 @@ System default file encoding: {6}
         return errMsg
 
     def toclip(self, event=None):
+        """Copy contents to clipboard."""
         self.top.clipboard_clear()
         self.top.clipboard_append(self.textField.get(index1=1.0,
             index2=tk.END + '-1c'))
 
     def ok(self, *args):
+        """Close the dialog."""
         self.top.destroy()
