@@ -8,7 +8,7 @@ Sample
 
 The default dialog will show some more information about the system:
 
-.. image:: sample.png
+.. image:: tkExceptionDialog/sample.png
 
 License
 -------
